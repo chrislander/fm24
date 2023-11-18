@@ -29,6 +29,9 @@ def calculate_personality_score(row):
 
 
 def calculate_position_score(row, position_attributes, personality_score):
+
+   gk, fb, cb, dm, m, am, fwd
+
     key_score = sum(row[attr] for attr in position_attributes["key"])
     green_score = sum(row[attr] for attr in position_attributes["green"])
     blue_score = sum(row[attr] for attr in position_attributes["blue"])
@@ -95,3 +98,7 @@ if __name__ == "__main__":
     # Write the final HTML to a file
     with open('output/enhanced_output_table.html', 'w', encoding='utf-8') as f:
         f.write(final_html)
+   
+    # Export to CSV with UTF-8 encoding
+    csv_file_path = 'output/squad_data.csv'
+    df.to_csv(csv_file_path, index=False, encoding='utf-8')
