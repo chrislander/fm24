@@ -8,38 +8,79 @@ def calculate_personality_score(row):
     personality = row["Personality"]
     if personality in personalities:
         trait_values = personalities[personality]
-
-        print(trait_values)
         num_traits = len(trait_values)
-        print(num_traits)
-        
-
         trait_score = sum(trait_values.values())
-        print(trait_score)
 
-        # Avoid division by zero if no traits are found
         if num_traits > 0:
             personality_score = (trait_score / num_traits) - (8 - num_traits)
-            print(personality_score)
             return round(personality_score, 1)
         else:
             return 0.0
     else:
         return 0.0
 
+def is_valid_position(player_position, valid_positions):
+    player_position = player_position.lower()  # Convert to lowercase for comparison
+    for pos in valid_positions:
+        if pos == 'gk' and 'gk' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos in ['wbl', 'wbr'] and 'wb' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'sc' and 's' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'dmc' and 'dm' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'mc' and 'm' in player_position and 'c' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'amc' and 'am' in player_position and 'c' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'dc' and 'd ' in player_position and 'c' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'dl' and 'd' in player_position and 'l' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'dr' and 'd' in player_position and 'r' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True            
+        elif pos == 'ml' and 'm' in player_position and 'l' in player_position :
+            print(pos + ' is valid position ' + player_position)
+            return True     
+        elif pos == 'mr' and 'm' in player_position and 'r' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True                         
+        elif pos == 'aml' and 'am' in player_position and 'l' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True
+        elif pos == 'amr' and 'am' in player_position and 'r' in player_position:
+            print(pos + ' is valid position ' + player_position)
+            return True            
+    return False
 
 def calculate_position_score(row, position_attributes, personality_score):
+    player_position = row['Position'].lower()
 
-   gk, fb, cb, dm, m, am, fwd
 
-    key_score = sum(row[attr] for attr in position_attributes["key"])
-    green_score = sum(row[attr] for attr in position_attributes["green"])
-    blue_score = sum(row[attr] for attr in position_attributes["blue"])
+    position_matches = is_valid_position(player_position, position_attributes['valid_positions'])
+
+    key_score = sum(row[attr] for attr in position_attributes["key"] if attr in row)
+    green_score = sum(row[attr] for attr in position_attributes["green"] if attr in row)
+    blue_score = sum(row[attr] for attr in position_attributes["blue"] if attr in row)
     
-    total_key_score = key_score + personality_score  # Adding personality score
+    total_key_score = key_score + personality_score
     total_attributes = len(position_attributes["key"]) * 5 + len(position_attributes["green"]) * 3 + len(position_attributes["blue"]) + 5
 
     total_score = (total_key_score * 5 + green_score * 3 + blue_score) / total_attributes
+
+    if not position_matches:
+        total_score *= 0.75
+
     return round(total_score, 1)
 
 def abbreviate_position_name(position_name):
@@ -55,16 +96,20 @@ def squad_html_to_dataframe(html_content):
     tables = pd.read_html(html_stream)
     df = tables[0]
 
+    # Drop 'Reg' and 'Inf' columns if they exist
+    if 'Reg' in df.columns:
+        df = df.drop('Reg', axis=1)
+    if 'Inf' in df.columns:
+        df = df.drop('Inf', axis=1)    
+
     for column in df.columns:
         if df[column].dtype == object:
             df[column].fillna('', inplace=True)
         else:
             df[column].fillna(0.0, inplace=True)
 
-    # Calculate personality scores once and store in the DataFrame
     df['Personality Score'] = df.apply(calculate_personality_score, axis=1)
 
-    # Calculate scores for each position using the pre-calculated personality score
     for position, attributes in positions.items():
         column_name = abbreviate_position_name(position)
         df[column_name] = df.apply(lambda row: calculate_position_score(row, attributes, row['Personality Score']), axis=1)
@@ -85,20 +130,13 @@ if __name__ == "__main__":
 
     html_table = df.to_html(table_id="squadTable", classes="table table-striped table-bordered", border=0, index=False)
 
-# Then, in your HTML template, you will replace {{table_placeholder}} with this 'html_table'
-
-
-    # Read the HTML template
     with open('table_template.html', 'r') as file:
         html_template = file.read()
 
-    # Insert the actual table data into the template
     final_html = html_template.replace('{{table_placeholder}}', html_table)
 
-    # Write the final HTML to a file
     with open('output/enhanced_output_table.html', 'w', encoding='utf-8') as f:
         f.write(final_html)
-   
-    # Export to CSV with UTF-8 encoding
+
     csv_file_path = 'output/squad_data.csv'
     df.to_csv(csv_file_path, index=False, encoding='utf-8')
