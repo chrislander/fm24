@@ -119,6 +119,11 @@ positions = {
         "green": ["Mar", "Tck", "Ant", "Cnt", "Pos"],
         "blue": ["Hea", "Bra", "Str"]
     },
+    "No-nonsense Full Back - Defend": {
+        "key": ["Acc", "Pac", "Sta", "Wor"],
+        "green": ["Mar", "Tck", "Ant", "Pos", "Str"],
+        "blue": ["Hea", "Agg", "Bra", "Cnt", "Tea"]
+    },
     "Wide Centre Back - Defend": {
         "key": ["Acc", "Pac", "Jum", "Cmp"],
         "green": ["Hea", "Mar", "Tck", "Pos", "Str"],
@@ -209,7 +214,6 @@ positions = {
         "green": ["Fir", "Pas", "Dec", "OtB"],
         "blue": ["Lon", "Tck", "Tec", "Ant", "Cmp", "Tea", "Vis"]
     },
-        # Continuing from the previous positions...
     "Deep Lying Playmaker - Defend": {
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Fir", "Pas", "Tec", "Cmp", "Dec", "Tea", "Vis"],
@@ -260,7 +264,6 @@ positions = {
         "green": ["Dri", "Fin", "Fir", "Tec", "Ant", "OtB", "Agi"],
         "blue": ["Lon", "Pas", "Cmp", "Fla", "Bal"]
     },
-        # Continuing from the previous positions...
     "Inverted Winger - Support": {
         "key": ["Acc", "Pac", "Sta", "Wor"],
         "green": ["Cro", "Dri", "Pas", "Tec", "Agi"],
@@ -360,8 +363,8 @@ positions = {
         "key": ["Acc", "Pac", "Fin"],
         "green": ["Dri", "Fir", "Tec", "Cmp", "OtB"],
         "blue": ["Pas", "Ant", "Dec", "Wor", "Agi", "Bal", "Sta"]
-        
-    }, "Complete Forward - Support": {
+    }, 
+    "Complete Forward - Support": {
         "key": ["Acc", "Pac", "Fin"],
         "green": ["Dri", "Fir", "Hea", "Lon", "Pas", "Tec", "Ant", "Cmp", "Dec", "OtB", "Vis", "Agi", "Str"],
         "blue": ["Tea", "Wor", "Bal", "Jum", "Sta"]
@@ -421,3 +424,4 @@ positions = {
         "green": ["Dri", "Fir", "Pas", "Tec", "Cmp", "Dec", "Fla", "OtB", "Vis"],
         "blue": ["Ant", "Agi", "Bal"]
     }
+}
