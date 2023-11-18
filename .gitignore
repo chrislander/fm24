@@ -1,3 +1,5 @@
 env/
 fm_exports/**
 output/**
+__pycache__/
+*.pyc
