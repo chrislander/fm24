@@ -89,7 +89,7 @@ def calculate_personality_score(row):
         trait_score = sum(trait_values.values())
 
         if num_traits > 0:
-            personality_score = (trait_score / num_traits) - (7 - num_traits)
+            personality_score = (trait_score / num_traits) - (8 - num_traits)
             return round(personality_score, 1)
         else:
             return 0.0

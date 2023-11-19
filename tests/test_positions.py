@@ -263,11 +263,6 @@ class TestParsePositionString(unittest.TestCase):
     def test_D_C_WB_R_DM_M_RC(self):
         self.assertEqual(set(parse_position_string('D (C), WB (R), DM, M (RC)')), {'dc', 'wbr', 'dm', 'mr', 'mc'})
 
-# ... and more as needed ...
-
-
-# ... Add remaining test cases ...
-
 
 if __name__ == '__main__':
     unittest.main()
