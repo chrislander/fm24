@@ -4,6 +4,68 @@ import os
 from positions_list import positions
 from personalities_list import personalities
 
+def parse_individual_position(pos):
+    individual_positions = []
+    if 'AM ' in pos:
+        if 'R' in pos:
+            individual_positions.append('amr')
+        if 'C' in pos:
+            individual_positions.append('amc')
+        if 'L' in pos:
+            individual_positions.append('aml')
+    elif 'M ' in pos:
+        if 'C' in pos:
+            individual_positions.append('mc')
+        if 'L' in pos:
+            individual_positions.append('ml')
+        if 'R' in pos:
+            individual_positions.append('mr')            
+    if 'D ' in pos:
+        if 'C' in pos:
+            individual_positions.append('dc')
+        if 'L' in pos:
+            individual_positions.append('dl')
+        if 'R' in pos:
+            individual_positions.append('dr')
+    if 'ST ' in pos:
+        if 'C' in pos:
+            individual_positions.append('stc')
+    if 'DM' in pos:
+        individual_positions.append('dm')
+    if 'GK' in pos:
+        individual_positions.append('gk')
+    if 'WB' in pos:
+        if 'L' in pos:
+            individual_positions.append('wbl')
+        if 'R' in pos:
+            individual_positions.append('wbr')
+    return individual_positions
+
+def parse_position_string(pos_string):
+    position_groups = pos_string.split(',')
+    parsed_positions = []
+
+    for group in position_groups:
+        group = group.strip()
+
+        if '/' in group:
+            parts = group.split('/')
+            attributes = parts[-1]
+            for part in parts[:-1]:
+                full_part = part.strip() + ' ' + attributes.strip()
+                individual_positions = parse_individual_position(full_part)
+                parsed_positions.extend(individual_positions)
+        else:
+            # If there's no '/', parse the group directly
+            individual_positions = parse_individual_position(group)
+            parsed_positions.extend(individual_positions)
+
+    print(pos_string)
+    print(parsed_positions)
+
+    return parsed_positions
+
+
 def calculate_personality_score(row):
     personality = row["Personality"]
     if personality in personalities:
@@ -19,55 +81,18 @@ def calculate_personality_score(row):
     else:
         return 0.0
 
-def is_valid_position(player_position, valid_positions):
-    player_position = player_position.lower()  # Convert to lowercase for comparison
-    for pos in valid_positions:
-        if pos == 'gk' and 'gk' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos in ['wbl', 'wbr'] and 'wb' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'sc' and 's' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'dmc' and 'dm' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'mc' and 'm' in player_position and 'c' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'amc' and 'am' in player_position and 'c' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'dc' and 'd ' in player_position and 'c' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'dl' and 'd' in player_position and 'l' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'dr' and 'd' in player_position and 'r' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True            
-        elif pos == 'ml' and 'm' in player_position and 'l' in player_position :
-            print(pos + ' is valid position ' + player_position)
-            return True     
-        elif pos == 'mr' and 'm' in player_position and 'r' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True                         
-        elif pos == 'aml' and 'am' in player_position and 'l' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True
-        elif pos == 'amr' and 'am' in player_position and 'r' in player_position:
-            print(pos + ' is valid position ' + player_position)
-            return True            
-    return False
-
 def calculate_position_score(row, position_attributes, personality_score):
-    player_position = row['Position'].lower()
+
+    #player_name = row['Name']  # Assuming 'Name' is the column with player names
+    
+    player_position_string = row['Position']    
+    player_positions = parse_position_string(player_position_string)
+    position_matches = any(pos in position_attributes['valid_positions'] for pos in player_positions)
+
+    #print(f"Player: {player_name}, Position String: '{player_position_string}', Parsed Positions: {player_positions}")
+    #print(f"Assessing for position: '{position_attributes['valid_positions']}', Matches: {position_matches}")
 
 
-    position_matches = is_valid_position(player_position, position_attributes['valid_positions'])
 
     key_score = sum(row[attr] for attr in position_attributes["key"] if attr in row)
     green_score = sum(row[attr] for attr in position_attributes["green"] if attr in row)
