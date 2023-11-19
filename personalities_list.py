@@ -1,4 +1,13 @@
 personalities = {
+    'Balanced': {
+        'Professionalism': 10,
+        'Determination': 10,
+        'Ambition': 10,
+        'Loyalty': 10,
+        'Sportsmanship': 10,
+        'Pressure': 10,
+        'Temperament': 10        
+    }
     'Temperamental': {
         'Professionalism': 6,
         'Loyalty': 3
