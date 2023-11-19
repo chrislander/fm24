@@ -198,7 +198,7 @@ positions = {
         "blue": ["Dri", "Ant", "Fla", "Agi"]
     },
     "Anchor - Defend": {
-        "valid_positions" : ["dmc"],
+        "valid_positions" : ["dm"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Mar", "Tck", "Ant", "Cnt", "Dec", "Pos"],
         "blue": ["Cmp", "Tea", "Str"]
@@ -216,13 +216,13 @@ positions = {
         "blue": ["Fin", "Cmp", "Vis", "Agi"]
     },
     "Ball Winning Midfielder - Defend": {
-        "valid_positions" : ["dmc","mc"],
+        "valid_positions" : ["dm","mc"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Tck", "Agg", "Ant", "Tea"],
         "blue": ["Mar", "Bra", "Cnt", "Pos", "Agi", "Str"]
     },
     "Ball Winning Midfielder - Support": {
-        "valid_positions" : ["dmc","mc"],
+        "valid_positions" : ["dm","mc"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Tck", "Agg", "Ant", "Tea"],
         "blue": ["Mar", "Pas", "Bra", "Cnt", "Agi", "Str"]
@@ -258,25 +258,25 @@ positions = {
         "blue": ["Lon", "Tck", "Tec", "Ant", "Cmp", "Tea", "Vis"]
     },
     "Deep Lying Playmaker - Defend": {
-        "valid_positions" : ["dmc","mc"],
+        "valid_positions" : ["dm","mc"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Fir", "Pas", "Tec", "Cmp", "Dec", "Tea", "Vis"],
         "blue": ["Tck", "Ant", "Pos", "Bal"]
     },
     "Deep Lying Playmaker - Support": {
-        "valid_positions" : ["dmc","mc"],
+        "valid_positions" : ["dm","mc"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Fir", "Pas", "Tec", "Cmp", "Dec", "Tea", "Vis"],
         "blue": ["Ant", "OtB", "Pos", "Bal"]
     },
     "Defensive Midfielder - Defend": {
-        "valid_positions" : ["dmc"],
+        "valid_positions" : ["dm"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Tck", "Ant", "Cnt", "Pos", "Tea"],
         "blue": ["Mar", "Pas", "Agg", "Cmp", "Str", "Dec"]
     },
     "Defensive Midfielder - Support": {
-        "valid_positions" : ["dmc"],
+        "valid_positions" : ["dm"],
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Tck", "Ant", "Cnt", "Pos", "Tea"],
         "blue": ["Fir", "Mar", "Pas", "Agg", "Cmp", "Dec", "Str"]
@@ -300,7 +300,7 @@ positions = {
         "blue": ["Dri", "Ant", "Fla", "OtB", "Tea", "Agi"]
     },
     "Half Back - Defend": {
-        "valid_positions" : ["dmc"],        
+        "valid_positions" : ["dm"],        
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Mar", "Tck", "Ant", "Cmp", "Cnt", "Dec", "Pos", "Tea"],
         "blue": ["Fir", "Pas", "Agg", "Bra", "Jum", "Str"]
@@ -348,25 +348,25 @@ positions = {
         "blue": ["Fir", "Tec"]
     },
     "Regista - Support": {
-        "valid_positions" : ["dmc"],                   
+        "valid_positions" : ["dm"],                   
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Fir", "Pas", "Tec", "Cmp", "Dec", "Fla", "OtB", "Tea", "Vis"],
         "blue": ["Dri", "Lon", "Ant", "Bal"]
     },
     "Roaming Playmaker - Support": {
-        "valid_positions" : ["dmc","mc"],                 
+        "valid_positions" : ["dm","mc"],                 
         "key": ["Acc", "Pac", "Sta", "Wor"],
         "green": ["Fir", "Pas", "Tec", "Ant", "Cmp", "Dec", "OtB", "Tea", "Vis"],
         "blue": ["Dri", "Lon", "Cnt", "Pos", "Agi", "Bal"]
     },
     "Segundo Volante - Support": {
-        "valid_positions" : ["dmc"],                 
+        "valid_positions" : ["dm"],                 
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Mar", "Pas", "Tck", "OtB", "Pos"],
         "blue": ["Fin", "Fir", "Lon", "Ant", "Cmp", "Cnt", "Dec", "Bal", "Str"]
     },
     "Segundo Volante - Attack": {
-        "valid_positions" : ["dmc"],                 
+        "valid_positions" : ["dm"],                 
         "key": ["Wor", "Sta", "Acc", "Pac"],
         "green": ["Fin", "Lon", "Pas", "Tck", "Ant", "OtB", "Pos"],
         "blue": ["Fir", "Mar", "Cmp", "Cnt", "Dec", "Bal"]

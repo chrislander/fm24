@@ -7,7 +7,7 @@ personalities = {
         'Sportsmanship': 10,
         'Pressure': 10,
         'Temperament': 10        
-    }
+    },
     'Temperamental': {
         'Professionalism': 6,
         'Loyalty': 3
