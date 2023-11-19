@@ -48,22 +48,37 @@ def parse_position_string(pos_string):
     for group in position_groups:
         group = group.strip()
 
+        # Handle each group that may contain slashes
         if '/' in group:
             parts = group.split('/')
-            attributes = parts[-1]
-            for part in parts[:-1]:
-                full_part = part.strip() + ' ' + attributes.strip()
+            # The attributes are only associated with the last part
+            attributes = parts[-1].split(' ')[-1]
+
+            # Process each part with the attributes
+            for part_index, part in enumerate(parts):
+                if part_index < len(parts) - 1:
+                    # For all but the last part, append the attributes
+                    full_part = f"{part.strip()} {attributes}"
+                else:
+                    # The last part already includes the attributes
+                    full_part = part.strip()
+
                 individual_positions = parse_individual_position(full_part)
-                parsed_positions.extend(individual_positions)
+                for position in individual_positions:
+                    if position not in parsed_positions:
+                        parsed_positions.append(position)
         else:
             # If there's no '/', parse the group directly
             individual_positions = parse_individual_position(group)
-            parsed_positions.extend(individual_positions)
+            for position in individual_positions:
+                if position not in parsed_positions:
+                    parsed_positions.append(position)
 
     print(pos_string)
     print(parsed_positions)
 
     return parsed_positions
+
 
 
 def calculate_personality_score(row):
@@ -81,17 +96,19 @@ def calculate_personality_score(row):
     else:
         return 0.0
 
-def calculate_position_score(row, position_attributes, personality_score):
+def calculate_position_score(row, position_attributes, personality_score, player_positions):
 
     #player_name = row['Name']  # Assuming 'Name' is the column with player names
     
-    player_position_string = row['Position']    
-    player_positions = parse_position_string(player_position_string)
     position_matches = any(pos in position_attributes['valid_positions'] for pos in player_positions)
 
     #print(f"Player: {player_name}, Position String: '{player_position_string}', Parsed Positions: {player_positions}")
     #print(f"Assessing for position: '{position_attributes['valid_positions']}', Matches: {position_matches}")
 
+    print(row['Name'])
+    print(position_attributes['valid_positions'])
+    print(player_positions)
+    print(position_matches)
 
 
     key_score = sum(row[attr] for attr in position_attributes["key"] if attr in row)
@@ -133,11 +150,17 @@ def squad_html_to_dataframe(html_content):
         else:
             df[column].fillna(0.0, inplace=True)
 
+
+    # Calculate and store player positions
+    df['Parsed Positions'] = df['Position'].apply(parse_position_string)
+
     df['Personality Score'] = df.apply(calculate_personality_score, axis=1)
 
+    #Loops through the imported positions list
     for position, attributes in positions.items():
         column_name = abbreviate_position_name(position)
-        df[column_name] = df.apply(lambda row: calculate_position_score(row, attributes, row['Personality Score']), axis=1)
+        # Pass the pre-calculated positions to calculate_position_score
+        df[column_name] = df.apply(lambda row: calculate_position_score(row, attributes, row['Personality Score'], row['Parsed Positions']), axis=1)
 
     return df
 
