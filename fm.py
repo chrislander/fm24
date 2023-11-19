@@ -120,8 +120,8 @@ def calculate_position_score(row, position_attributes, personality_score, player
 
     total_score = (total_key_score * 5 + green_score * 3 + blue_score) / total_attributes
 
-    #if not position_matches:
-    #    total_score *= 0.75
+    if not position_matches:
+        total_score *= 0.75
 
     return round(total_score, 1)
 
