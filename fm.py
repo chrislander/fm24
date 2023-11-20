@@ -74,8 +74,8 @@ def parse_position_string(pos_string):
                 if position not in parsed_positions:
                     parsed_positions.append(position)
 
-    print(pos_string)
-    print(parsed_positions)
+    #print(pos_string)
+    #print(parsed_positions)
 
     return parsed_positions
 
@@ -105,10 +105,10 @@ def calculate_position_score(row, position_attributes, personality_score, player
     #print(f"Player: {player_name}, Position String: '{player_position_string}', Parsed Positions: {player_positions}")
     #print(f"Assessing for position: '{position_attributes['valid_positions']}', Matches: {position_matches}")
 
-    print(row['Name'])
-    print(position_attributes['valid_positions'])
-    print(player_positions)
-    print(position_matches)
+    #print(row['Name'])
+    #print(position_attributes['valid_positions'])
+    #print(player_positions)
+    #print(position_matches)
 
 
     key_score = sum(row[attr] for attr in position_attributes["key"] if attr in row)
@@ -150,26 +150,36 @@ def squad_html_to_dataframe(html_content):
         else:
             df[column].fillna(0.0, inplace=True)
 
-
     # Calculate and store player positions
     df['Parsed Positions'] = df['Position'].apply(parse_position_string)
 
     df['Personality Score'] = df.apply(calculate_personality_score, axis=1)
 
-    #Loops through the imported positions list
-    for position, attributes in positions.items():
+    # Get total number of rows for progress tracking
+    total_rows = len(df)
+    print(f"Total number of rows: {total_rows}")
+
+    # Loops through the imported positions list
+    for i, (position, attributes) in enumerate(positions.items()):
         column_name = abbreviate_position_name(position)
         # Pass the pre-calculated positions to calculate_position_score
-        df[column_name] = df.apply(lambda row: calculate_position_score(row, attributes, row['Personality Score'], row['Parsed Positions']), axis=1)
+        for j, row in df.iterrows():
+            df.at[j, column_name] = calculate_position_score(row, attributes, row['Personality Score'], row['Parsed Positions'])
+            
+            # Print the current row number every 100 rows
+            if (j + 1) % 500 == 0:
+                print(f"Processing position {i + 1}/{len(positions)}, row {j + 1}/{total_rows}")
 
     return df
+
 
 def get_latest_file(directory, file_extension):
     files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith(file_extension)]
     latest_file = max(files, key=os.path.getmtime)
     return latest_file
 
-if __name__ == "__main__":
+def main():
+
     latest_file_path = get_latest_file('fm_exports/', '.html')
     with open(latest_file_path, 'r', encoding='UTF-8') as file:
         html_content = file.read()
@@ -188,3 +198,7 @@ if __name__ == "__main__":
 
     csv_file_path = 'output/squad_data.csv'
     df.to_csv(csv_file_path, index=False, encoding='utf-8')
+
+
+if __name__ == "__main__":
+    main()
